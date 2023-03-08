@@ -1,0 +1,59 @@
+<html>
+    <body>
+        <canvas width="600" height="600"></canvas>
+        
+        <script>
+            
+            // let canvas = document.querySelector('canvas');
+            // let context = canvas.getContext('2d');
+            // context.fillStyle = 'blue';
+            // context.fillRect(100, 100, 400, 400);
+            
+            // context.lineWidth = 10;
+            // context.beginPath();
+            // context.rect(200, 200, 400, 400)
+            // context.stroke();
+
+            // context.lineWidth = 4
+            // context.beginPath();
+            // context.arc(300, 300, 200, 0, 2 * Math.PI);
+            // context.stroke();
+
+
+            let canvas = document.querySelector("canvas");
+            let context = canvas.getContext('2d');
+
+            // context.lineWidth = 4;
+            // context.beginPath();
+            // context.rect(100, 100, 400, 400);
+            // context.stroke();
+
+            // context.lineWidth = 4;
+            // context.beginPath();
+            // context.arc(300, 300, 100, 0, 2 * Math.PI);
+            // context.stroke();
+
+            // let years = [2040, 2041, 2042];
+            // let menu = ["starter", "main", "desert", "drinks"]
+            const width = 60, height = 60, gap = 20;
+            let x, y;
+            for(let i = 0; i < 5; i++){
+                for(let j = 0; j < 5; j++){
+                    x = 100 + (width + gap) * i;
+                    y = 100 + (height + gap) * j;
+                    context.beginPath();
+                    context.rect(x, y, width, height);
+                    context.stroke();
+                    if(i % 2 != 0 || j % 2 != 0){
+                        context.beginPath();
+                        context.rect(x + 8, y + 8, width-16, height-16);
+                        context.stroke();
+                    }
+                    
+                }
+                
+            }
+
+        </script>
+    </body>
+</html>
