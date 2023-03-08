@@ -85,28 +85,44 @@ class Banner{
 
   buildBanner(cxt){
     
-    
+    // cxt.fillRect(this.x, this.y, this.width, this.height);
     cxt.fillStyle = 'black';
-    cxt.fillRect(this.x, this.y, this.width, this.height);
-    cxt.font = `45px ${fontFamily}`;
-    // console.log(cxt)
-    this.word.forEach(letter=>{
+    cxt.save();
+    cxt.translate(this.x, this.y)
+    cxt.fillRect(0, 0, this.width, this.height);
+    cxt.font = `150px ${fontFamily}`;
+    cxt.fillStyle = "white"
+    cxt.strokeStyle = "green"
+    cxt.textAlign = "right";
+
+    const wordWidth = this.word.reduce((total, letter) => {
+      const wm = cxt.measureText(letter);
+      return total + wm.actualBoundingBoxLeft + wm.actualBoundingBoxRight;
+    }, 0);
+
+    let x = (this.width - wordWidth) * 0.45;
+
+    this.word.forEach((letter, k)=>{
       
       const metrics = cxt.measureText(letter)
-      let [x, y] = this.letterPos(letter, this.width, this.height, metrics);
-      
+      let [lx, y, mw, mh] = this.letterPos(this.width, this.height, metrics);
+      // cxt.textAlign = "lefy"
       cxt.save();
       cxt.beginPath();
-      cxt.translate(x, y);
+      // cxt.translate(lx * (k * 0.25) + (this.width * 0.2), y);
+      cxt.translate(x + lx * (k * 0.25), y);
       cxt.fillText(letter, 0, 0);
+      cxt.rect(0, 0, mw, mh)
+      // cxt.stroke();
       cxt.restore();
 
 
     })
+    cxt.restore();
 
   }
 
-  letterPos(text, w, h, metrics){
+  letterPos(w, h, metrics){
     // const metrics = context.measureText(text);
     // console.log(metrics);
     const mx = metrics.actualBoundingBoxLeft * -1;
@@ -114,13 +130,13 @@ class Banner{
     const mw = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;  
     const mh = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
     // console.log(mx, my, mw, mh)
-    const x = (w - mw) * 0.5 - mx;
+    const lx = (w - mw) * 0.5 - mx;
     const y = (h - mh) * 0.5 - my;
     
     // context.save();
     // context.translate(x, y);
 
-    return [x, y];
+    return [lx, y, mw, mh];
 
 
     // context.beginPath();
